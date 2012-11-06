@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "List (Ajax)";
+}
+
+<h2>List Users with Ajax call to WebAPI service</h2>
+<div id="results"></div>
+
+<script type="text/javascript">
+    // Function to call WCF  Service       
+    function CallService() {
+        $.ajax({
+            type: "GET", //GET or POST or PUT or DELETE verb
+            url: "http://localhost:3768/api/users?callback=?", // Location of the service, note ?callback=? see Global.asax for more info
+            contentType: "application/json; charset=utf-8", // content type sent to server
+            dataType: "jsonp", //Expected data format from server
+            processdata: true, //True or False
+            success: function (data) {//On Successful service call
+                ServiceSucceeded(data);
+            },
+            beforeSend : ServiceCalled,
+            error: ServiceFailed// When Service call fails
+        });
+    }
+
+    function ServiceFailed(result) {
+        alert('Service call failed: ' + result.status + '' + result.statusText);
+        Type = null;
+        varUrl = null;
+        Data = null;
+        ContentType = null;
+        DataType = null;
+        ProcessData = null;
+    }
+
+    function ServiceCalled() {
+        $("#results").html("loading data from service...");
+    }
+
+
+    function ServiceSucceeded(result) {
+        $("#results").html("");   
+        $("#results").append("<ul>");
+        for (i = 0; i < result.length; i++) {
+            $("#results").append("<li>" + result[i].Firstname +
+                " " + result[i].Lastname + "</li>");
+        }
+        $("#results").append("</ul>");
+    }
+
+    $(document).ready(
+    function () {
+        CallService();
+    }
+);
+</script>

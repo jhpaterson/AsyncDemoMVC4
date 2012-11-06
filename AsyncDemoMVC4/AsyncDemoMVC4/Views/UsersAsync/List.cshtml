@@ -1,0 +1,30 @@
+﻿@model IEnumerable<AsyncDemoMVC4.Models.User>
+
+@{
+    ViewBag.Title = "List (Async)";
+}
+
+<h2>List Users with MVC4 Async Action</h2>
+
+<table>
+    <tr>
+        <th>
+            Firstname
+        </th>
+        <th>
+            Lastname
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Firstname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lastname)
+        </td>
+    </tr>
+}
+
+</table>
